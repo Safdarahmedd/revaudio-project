@@ -1,4 +1,3 @@
-
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -37,14 +36,17 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_REPLACE_HTTPS_REFERER = True
+
 ROOT_URLCONF = 'revaudio.urls'
 
-CORS_ORIGIN_ALLOW_ALL = True
 
 TEMPLATES = [
     {
@@ -70,12 +72,8 @@ WSGI_APPLICATION = 'revaudio.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'audiodb',
-        'USER':'postgres',
-        'PASSWORD':'test123',
-        'HOST':'localhost',
-        'PORT':'5432'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -122,10 +120,7 @@ STATICFILES_DIRS= [
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
 
-try:
-    from .local_settings import *
-except ImportError:
-    pass
+
